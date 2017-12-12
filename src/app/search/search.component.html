@@ -1,0 +1,20 @@
+<div style="margin-top: 150px;">
+  <div class="row justify-content-md-center">
+    <div class="col-md-6">
+      <div class="text-center">
+        <img src="/assets/logo.png" width="340px">
+      </div>
+      <form (ngSubmit)="submitSearch()">
+        <div class="form-group">
+          <div class="input-group">
+            <input autofocus id="typeahead-http" type="text" name="search" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search"
+              placeholder="Search" />
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="submit">Go!</button>
+            </span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
