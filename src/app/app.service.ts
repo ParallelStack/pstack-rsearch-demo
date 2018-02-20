@@ -18,10 +18,17 @@ export class AppService {
       return Observable.of([]);
     }
 
-    let url = `${this.config.basePath}/indexes/${this.config.indexName}/document_types/${this.config.documentType}/suggest?q=${term}&auth_token=${this.config.authToken}`;
+    let url = `${this.config.basePath}/indexes/products/suggest?q=${term}&auth_token=${this.config.authToken}`;
 
     return this.httpClient
-      .get(url, {
+      .post(url, {
+        "suggest": {
+          "query": term,
+          "fields": ["title"],
+          "fuzzy": 1,
+          "size": 2
+        }
+      }, {
         observe: 'body',
         headers: new HttpHeaders()
           .set('X-RSearch-App-ID', this.config.appId)
@@ -37,13 +44,26 @@ export class AppService {
   }
 
   search(searchText: string, pageNumber: number) {
-    let url = `${this.config.basePath}/indexes/${this.config.indexName}/document_types/${this.config.documentType}/search?auth_token=${this.config.authToken}`;
+    let url = `${this.config.basePath}/indexes/search?auth_token=${this.config.authToken}`;
     return this.httpClient
       .post(url, {
         "search": {
+          "indexes": ["news", "feature_stories", "popular_news", "reviews", "slideshows", "videos", "how_tos", "top_ten", "products"],
           "query": searchText,
           "page_count": 20,
           "page_num": pageNumber,
+          "search_fields": ["title^5", "description"],
+          "result_fields": ["title", "link", "description", "category", "thumbnail"],
+          "nested_aggregations": 1,
+          "aggregations": [
+            {
+              "field_name": "category",
+              "agg_type": "term",
+              "term_agg_size": 20
+            }
+          ]
+
+
         }
       }, {
         observe: 'body',

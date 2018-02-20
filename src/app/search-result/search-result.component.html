@@ -23,6 +23,28 @@
     <div class="row">
         <div class="col-md-2 left-pane">
             <br>Filters to come
+            <div style="overflow-y:scroll; height:400px;">
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+                   <div><label><input type="checkbox"> Item1</label></div>
+
+                
+            </div>
         </div>
         <div class="col-md-10" style="padding:20px;">
             <div class="pull-right" style="padding:10px 0px;">
@@ -30,41 +52,26 @@
             </div>
 
             <table class="table table-sm">
-                    
-                    <thead>   
-                      <tr>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Type</th>
-                        <th>Qty</th>
-                        <th>Unit</th>
-                        <th>Alcohol (gm)</th>
-                        <th>Calories</th>
-                        <th>Carb (gm)</th>
-                        <th>Fat (gm)</th>
-                        <th>Fiber (gm)</th>
-                        <th>Protein (gm)</th>
-                        <th>Author</th>
-                        
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let r of result">
-                        <td>{{r._source.name}}</td>
-                        <td>{{r._source.category}}</td>
-                        <td>{{r._source.type}}</td>
-                        <td>{{r._source.quantity}}</td>
-                        <td>{{r._source.unit}}</td>
-                        <td>{{r._source.alcoholInGm}}</td>
-                        <td>{{r._source.calories}}</td>
-                        <td>{{r._source.carbInGm}}</td>
-                        <td>{{r._source.fatInGm}}</td>
-                        <td>{{r._source.fiberInGm}}</td>
-                        <td>{{r._source.proteinInGm}}</td>
-                        <td>{{r._source.author}}</td>
-                      </tr>
-</tbody>
-</table>
+
+                <thead>
+                    <tr>
+                        <th style="width: 120px"></th>
+                        <th style="width:200px;" >Title</th>
+                        <th>Description</th>                                               
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let r of result">
+                        <td>
+                           <a [href]="r._source.link" target="_blank">
+                                <img [src]="r._source?.thumbnail" width="100px" >
+                           </a> </td>
+                        <td><a [href]="r._source.link" target="_blank">{{r._source.title}}</a></td>
+                         <td> {{ (r._source.description.length>6)? (r._source.description | slice:0:500)+'..':(r._source.description) }}</td>
+                         <!-- <td> <div [innerHTML]="(r._source.description.length>6)? (r._source.description | slice:0:500)+'..':(r._source.description)" ></div></td> -->
+                    </tr>
+                </tbody>
+            </table>
 
             <div *ngIf="totalCount>20" class="d-flex justify-content-center">
                 <ngb-pagination [collectionSize]="totalCount" [pageSize]="20" [ellipses]="false" [rotate]="true" [maxSize]="10" [boundaryLinks]="true"
