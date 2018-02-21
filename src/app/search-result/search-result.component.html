@@ -4,7 +4,7 @@
             <img src="/assets/logo.png" alt="" height="74px" [routerLink]="['/']">
         </div>
         <div class="col-md-6" style="padding:20px;">
-            <form (ngSubmit)="searchResult()">
+            <form (ngSubmit)="onSearch()">
                 <div class="form-group">
                     <div class="input-group">
                         <input id="typeahead-http" type="text" name="search" class="form-control" [(ngModel)]="searchQuery" [ngbTypeahead]="search"
@@ -26,12 +26,11 @@
                   <ngb-accordion #acc="ngbAccordion">
                     <ngb-panel [title]="">
                             <ng-template ngbPanelTitle>
-                                   {{filter.key | titlecase}} ({{filter.doc_count}})
+                                   {{filter.key | uppercase}} ({{filter.doc_count}})
                                   </ng-template>
                       <ng-template ngbPanelContent>
                         <div *ngFor="let item of filter.category_agg.buckets">
-                            
-                            <label for=""> <input type="checkbox" name="" id="">  {{item.key}} ({{item.doc_count}}) </label>
+                            <label> <input type="checkbox" (click)="filterResult(filter.key, item.key,$event.target.checked)">  {{item.key}} ({{item.doc_count}}) </label>
                         </div>
                       </ng-template>
                     </ngb-panel>

@@ -43,18 +43,19 @@ export class AppService {
       })
   }
 
-  search(searchText: string, pageNumber: number) {
+  search(searchText: string, indexs:string[],filter:any, pageNumber: number) {
     let url = `${this.config.basePath}/indexes/search?auth_token=${this.config.authToken}`;
     return this.httpClient
       .post<any>(url, {
         "search": {
-          "indexes": ["news", "feature_stories", "popular_news", "reviews", "slideshows", "videos", "how_tos", "top_ten", "products"],
+          "indexes": indexs,
           "query": searchText,
           "page_count": 20,
           "page_num": pageNumber,
           "search_fields": ["title^5", "description"],
           "result_fields": ["title", "link", "description", "category", "thumbnail"],
           "nested_aggregations": 1,
+          "filters": filter,
           "aggregations": [
             {
               "field_name": "category",
