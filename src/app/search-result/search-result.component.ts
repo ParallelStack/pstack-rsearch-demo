@@ -85,6 +85,10 @@ export class SearchResultComponent implements OnInit {
         return !(data.fieldName==fieldName && data.indexName==indexName)
       });
     }
+    this.loadData();
+  }
+
+  loadData(){
     if(this.searchFilters.length>0){
       let filterCatetories=this.searchFilters.map((data:SearchFiter)=>{
         return data.fieldName;
@@ -99,9 +103,6 @@ export class SearchResultComponent implements OnInit {
     }else{
       this.searchResult(this.defaultIndexs,{}, false);
     }
-
-    
-  
   }
 
 }

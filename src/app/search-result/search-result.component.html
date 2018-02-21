@@ -65,7 +65,7 @@
 
             <div *ngIf="totalCount>20" class="d-flex justify-content-center">
                 <ngb-pagination [collectionSize]="totalCount" [pageSize]="20" [ellipses]="false" [rotate]="true" [maxSize]="10" [boundaryLinks]="true"
-                    [(page)]="page" (pageChange)="searchResult()" aria-label="Default pagination"></ngb-pagination>
+                    [(page)]="page" (pageChange)="loadData()" aria-label="Default pagination"></ngb-pagination>
             </div>
         </div>
     </div>
