@@ -46,7 +46,7 @@ export class AppService {
   search(searchText: string, pageNumber: number) {
     let url = `${this.config.basePath}/indexes/search?auth_token=${this.config.authToken}`;
     return this.httpClient
-      .post(url, {
+      .post<any>(url, {
         "search": {
           "indexes": ["news", "feature_stories", "popular_news", "reviews", "slideshows", "videos", "how_tos", "top_ten", "products"],
           "query": searchText,

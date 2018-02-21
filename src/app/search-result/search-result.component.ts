@@ -14,6 +14,7 @@ export class SearchResultComponent implements OnInit {
 
   searchQuery: string = "";
   totalCount: number = 0;
+  filters:any =[];
   result: any;
   page: number;
 
@@ -43,9 +44,11 @@ export class SearchResultComponent implements OnInit {
   searchResult() {
     this.service.search(this.searchQuery, this.page)
       .subscribe(data => {
-        this.result = data["search_results"].results;
-        this.totalCount = data["search_results"].metadata.number_search_results;
-        this.searchQuery = data["search_results"].metadata.query;
+        this.result = data.search_results.results;
+        this.totalCount = data.search_results.metadata.number_search_results;
+        this.searchQuery = data.search_results.metadata.query;
+        this.filters= data.search_results.metadata.aggregated.by_index_agg.buckets;
+        console.log(this.filters);
       }, error => {
         this.result = [];
         this.totalCount = 0;

@@ -21,57 +21,48 @@
 
 <section style="padding:0px 20px">
     <div class="row">
-        <div class="col-md-2 left-pane">
-            <br>Filters to come
-            <div style="overflow-y:scroll; height:400px;">
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
-                   <div><label><input type="checkbox"> Item1</label></div>
+        <div class="col-md-3 left-pane">
+            <div *ngFor="let filter of filters">
+                  <ngb-accordion #acc="ngbAccordion">
+                    <ngb-panel [title]="">
+                            <ng-template ngbPanelTitle>
+                                   {{filter.key | titlecase}} ({{filter.doc_count}})
+                                  </ng-template>
+                      <ng-template ngbPanelContent>
+                        <div *ngFor="let item of filter.category_agg.buckets">
+                            
+                            <label for=""> <input type="checkbox" name="" id="">  {{item.key}} ({{item.doc_count}}) </label>
+                        </div>
+                      </ng-template>
+                    </ngb-panel>
+                  </ngb-accordion>
 
-                
             </div>
+            
         </div>
-        <div class="col-md-10" style="padding:20px;">
+        <div class="col-md-9" style="padding:20px;">
             <div class="pull-right" style="padding:10px 0px;">
                 <small>Total {{totalCount}} results found</small>
             </div>
 
-            <table class="table table-sm">
-
-                <thead>
-                    <tr>
-                        <th style="width: 120px"></th>
-                        <th style="width:200px;" >Title</th>
-                        <th>Description</th>                                               
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let r of result">
-                        <td>
-                           <a [href]="r._source.link" target="_blank">
-                                <img [src]="r._source?.thumbnail" width="100px" >
-                           </a> </td>
-                        <td><a [href]="r._source.link" target="_blank">{{r._source.title}}</a></td>
-                         <td> {{ (r._source.description.length>6)? (r._source.description | slice:0:500)+'..':(r._source.description) }}</td>
-                         <!-- <td> <div [innerHTML]="(r._source.description.length>6)? (r._source.description | slice:0:500)+'..':(r._source.description)" ></div></td> -->
-                    </tr>
-                </tbody>
-            </table>
+            <div class="row" *ngFor="let r of result" style="margin-bottom:20px;">
+                <div class="col-md-2" width="120px">
+                    <a [href]="r._source.link" target="_blank">
+                        <img [src]="r._source?.thumbnail" width="120px" >
+                   </a>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a [href]="r._source.link" target="_blank">{{r._source.title}}</a>
+                        </div>
+                        <div class="col-md-12">
+                            {{ (r._source.description.length>6)? (r._source.description | slice:0:500)+'..':(r._source.description) }}
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
 
             <div *ngIf="totalCount>20" class="d-flex justify-content-center">
                 <ngb-pagination [collectionSize]="totalCount" [pageSize]="20" [ellipses]="false" [rotate]="true" [maxSize]="10" [boundaryLinks]="true"
