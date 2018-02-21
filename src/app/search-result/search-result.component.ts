@@ -1,3 +1,4 @@
+import { SearchFiter } from './../search-filter';
 import { AppService } from './../app.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -17,8 +18,7 @@ export class SearchResultComponent implements OnInit {
   filters: any = [];
   result: any;
   page: number;
-
-  indexes = ["news",
+  defaultIndexs=["news",
     "feature_stories",
     "popular_news",
     "reviews",
@@ -28,7 +28,7 @@ export class SearchResultComponent implements OnInit {
     "top_ten",
     "products"];
 
-  filterCategory: string[] = [];
+  searchFilters:SearchFiter[]=[];
 
   constructor(private route: ActivatedRoute, private service: AppService) { }
 
@@ -55,12 +55,12 @@ export class SearchResultComponent implements OnInit {
 
   //Called when search button is clicked, this will reset all the filters    
   onSearch() {
-    this.searchResult({}, true);
+    this.searchResult(this.defaultIndexs,{}, true);
   }
 
   //Query for search result
-  searchResult(filter: any, reload: boolean) {
-    this.service.search(this.searchQuery, this.indexes, filter, this.page)
+  searchResult(indexes:string[],filter: any, reload: boolean) {
+    this.service.search(this.searchQuery, indexes, filter, this.page)
       .subscribe(data => {
         this.result = data.search_results.results;
         this.totalCount = data.search_results.metadata.number_search_results;
@@ -75,19 +75,33 @@ export class SearchResultComponent implements OnInit {
   }
 
   //Called when filter checkbox is checked or unchecked
-  filterResult(index, field, isChecked) {
+  filterResult(indexName:string, fieldName:string, isChecked:boolean) {
     if (isChecked) {
       //add item filter
-      this.filterCategory.push(field);
+      this.searchFilters.push({indexName:indexName,fieldName:fieldName});
     } else {
       //remove item from filter
-      this.filterCategory = this.filterCategory.filter(item => item !== field);
+      this.searchFilters= this.searchFilters.filter((data:SearchFiter)=>{
+        return !(data.fieldName==fieldName && data.indexName==indexName)
+      });
     }
-    if (this.filterCategory.length > 0) {
-      this.searchResult({ category: this.filterCategory }, false);
-    } else {
-      this.searchResult({}, false);
+    if(this.searchFilters.length>0){
+      let filterCatetories=this.searchFilters.map((data:SearchFiter)=>{
+        return data.fieldName;
+      });
+
+      let indexes=this.searchFilters.map((data:SearchFiter)=>{
+        return data.indexName;
+      })
+
+      this.searchResult(Array.from(new Set(indexes)),
+        {category:Array.from(new Set(filterCatetories))},false)
+    }else{
+      this.searchResult(this.defaultIndexs,{}, false);
     }
+
+    
+  
   }
 
 }

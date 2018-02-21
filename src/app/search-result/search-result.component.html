@@ -30,7 +30,7 @@
                                   </ng-template>
                       <ng-template ngbPanelContent>
                         <div *ngFor="let item of filter.category_agg.buckets">
-                            <label> <input type="checkbox" (click)="filterResult(filter.key, item.key,$event.target.checked)">  {{item.key}} ({{item.doc_count}}) </label>
+                            <label> <input type="checkbox" (change)="filterResult(filter.key, item.key,$event.target.checked)">  {{item.key}} ({{item.doc_count}}) </label>
                         </div>
                       </ng-template>
                     </ngb-panel>
