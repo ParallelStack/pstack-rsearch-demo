@@ -76,6 +76,10 @@ export class SearchResultComponent implements OnInit {
 
   //Called when filter checkbox is checked or unchecked
   filterResult(indexName:string, fieldName:string, isChecked:boolean) {
+    console.log(this.filters);
+    this.filters= this.filters.filter(data=>{
+      return (data.key==indexName )
+    });
     if (isChecked) {
       //add item filter
       this.searchFilters.push({indexName:indexName,fieldName:fieldName});
