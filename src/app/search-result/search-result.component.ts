@@ -60,6 +60,8 @@ export class SearchResultComponent implements OnInit {
 
   //Query for search result
   searchResult(indexes:string[],filter: any, reload: boolean) {
+    console.log("indexes",indexes)
+    console.log("filter",filter)
     this.service.search(this.searchQuery, indexes, filter, this.page)
       .subscribe(data => {
         this.result = data.search_results.results;
@@ -77,9 +79,6 @@ export class SearchResultComponent implements OnInit {
   //Called when filter checkbox is checked or unchecked
   filterResult(indexName:string, fieldName:string, isChecked:boolean) {
     console.log(this.filters);
-    this.filters= this.filters.filter(data=>{
-      return (data.key==indexName )
-    });
     if (isChecked) {
       //add item filter
       this.searchFilters.push({indexName:indexName,fieldName:fieldName});
@@ -94,16 +93,23 @@ export class SearchResultComponent implements OnInit {
 
   loadData(){
     if(this.searchFilters.length>0){
-      let filterCatetories=this.searchFilters.map((data:SearchFiter)=>{
-        return data.fieldName;
-      });
+      let filterCatetories=this.searchFilters
+        .map((data:SearchFiter)=>{
+          return  data.fieldName;
+      })
+      .filter(data=>data!=="all");
 
       let indexes=this.searchFilters.map((data:SearchFiter)=>{
         return data.indexName;
       })
-
-      this.searchResult(Array.from(new Set(indexes)),
+      console.log("loaddata");
+      if(filterCatetories.length>0){
+        this.searchResult(Array.from(new Set(indexes)),
         {category:Array.from(new Set(filterCatetories))},false)
+      }else{
+        this.searchResult(Array.from(new Set(indexes)),{},false)
+      }
+      
     }else{
       this.searchResult(this.defaultIndexs,{}, false);
     }

@@ -29,9 +29,15 @@
                                    {{filter.key | uppercase}} ({{filter.doc_count}})
                                   </ng-template>
                       <ng-template ngbPanelContent>
-                        <div *ngFor="let item of filter.category_agg.buckets">
-                            <label> <input type="checkbox" (change)="filterResult(filter.key, item.key,$event.target.checked)">  {{item.key}} ({{item.doc_count}}) </label>
-                        </div>
+                       <div *ngIf="filter.category_agg.buckets.length>0;else defaultFilter" >
+                            <div *ngFor="let item of filter.category_agg.buckets">
+                                <label> <input type="checkbox" (change)="filterResult(filter.key, item.key,$event.target.checked)">  {{item.key}} ({{item.doc_count}}) </label>
+                            </div>
+                       </div>
+                       <ng-template #defaultFilter>
+                        <label> <input type="checkbox" (change)="filterResult(filter.key,'all' ,$event.target.checked)"> All </label>
+                       </ng-template>
+                        
                       </ng-template>
                     </ngb-panel>
                   </ngb-accordion>
