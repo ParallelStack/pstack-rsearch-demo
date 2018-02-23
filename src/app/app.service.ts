@@ -18,15 +18,16 @@ export class AppService {
       return Observable.of([]);
     }
 
-    let url = `${this.config.basePath}/indexes/products/suggest?q=${term}&auth_token=${this.config.authToken}`;
+    let url = `${this.config.basePath}/indexes/suggest?auth_token=${this.config.authToken}`;
 
     return this.httpClient
       .post(url, {
         "suggest": {
+		  "indexes": ["news", "feature_stories", "popular_news", "reviews","slideshows","videos","how_tos","top_ten","products"],
           "query": term,
           "fields": ["title"],
           "fuzzy": 1,
-          "size": 2
+          "size": 10
         }
       }, {
         observe: 'body',
