@@ -18,17 +18,25 @@ export class SearchResultComponent implements OnInit {
   filters: any = [];
   result: any;
   page: number;
-  defaultIndexs=["news",
-    "feature_stories",
-    "popular_news",
-    "reviews",
-    "slideshows",
-    "videos",
-    "how_tos",
-    "top_ten",
-    "products"];
+  // defaultIndexs=["news",
+  //   "feature_stories",
+  //   "popular_news",
+  //   "reviews",
+  //   "slideshows",
+  //   "videos",
+  //   "how_tos",
+  //   "top_ten",
+  //   "products"];
+
+  defaultIndexs=["products"];
 
   searchFilters:SearchFiter[]=[];
+
+  model = {
+    left: true,
+    middle: false,
+    right: false
+  };
 
   constructor(private route: ActivatedRoute, private service: AppService) { }
 
@@ -118,6 +126,11 @@ export class SearchResultComponent implements OnInit {
     }else{
       this.searchResult(this.defaultIndexs,{}, false);
     }
+  }
+
+  filter(index:string){
+    let indexArray:string[]=[index];
+    this.searchResult(indexArray,{}, true);
   }
 
 }

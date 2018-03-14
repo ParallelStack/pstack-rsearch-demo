@@ -18,15 +18,16 @@ export class AppService {
       return Observable.of([]);
     }
 
-    let url = `${this.config.basePath}/indexes/products/suggest?q=${term}&auth_token=${this.config.authToken}`;
+    let url = `${this.config.basePath}/indexes/suggest?auth_token=${this.config.authToken}`;
 
     return this.httpClient
       .post(url, {
         "suggest": {
+		  "indexes": ["news", "feature_stories", "popular_news", "reviews","slideshows","videos","how_tos","top_ten","products"],
           "query": term,
           "fields": ["title"],
           "fuzzy": 1,
-          "size": 2
+          "size": 10
         }
       }, {
         observe: 'body',
@@ -53,7 +54,7 @@ export class AppService {
           "page_count": 20,
           "page_num": pageNumber,
           "search_fields": ["title^5", "description"],
-          "result_fields": ["title", "link", "description", "category", "thumbnail"],
+          "result_fields": ["title", "link", "description", "category", "thumbnail","price"],
           "nested_aggregations": 1,
           "filters": filter,
           "aggregations": [
