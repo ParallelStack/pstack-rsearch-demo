@@ -54,7 +54,7 @@ export class AppService {
           "page_count": 20,
           "page_num": pageNumber,
           "search_fields": ["title^5", "description"],
-          "result_fields": ["title", "link", "description", "category", "thumbnail"],
+          "result_fields": ["title", "link", "description", "category", "thumbnail","price"],
           "nested_aggregations": 1,
           "filters": filter,
           "aggregations": [
