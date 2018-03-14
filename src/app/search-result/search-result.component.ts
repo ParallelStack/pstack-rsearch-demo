@@ -58,22 +58,28 @@ export class SearchResultComponent implements OnInit {
     this.searchResult(this.defaultIndexs,{}, true);
   }
 
+  selectItem(event){
+    this.searchRequest(event.item,this.defaultIndexs,{}, true);
+    console.log("Event",event);
+  }
+
   //Query for search result
   searchResult(indexes:string[],filter: any, reload: boolean) {
-    console.log("indexes",indexes)
-    console.log("filter",filter)
-    this.service.search(this.searchQuery, indexes, filter, this.page)
-      .subscribe(data => {
-        this.result = data.search_results.results;
-        this.totalCount = data.search_results.metadata.number_search_results;
-        this.searchQuery = data.search_results.metadata.query;
-        if (reload) {
-          this.filters = data.search_results.metadata.aggregated.by_index_agg.buckets;
-        }
-      }, error => {
-        this.result = [];
-        this.totalCount = 0;
-      })
+    this.searchRequest(this.searchQuery,indexes,filter,reload);
+  }
+  searchRequest(searchQuery:string, indexes:string[],filter: any, reload: boolean){
+    this.service.search(searchQuery, indexes, filter, this.page)
+    .subscribe(data => {
+      this.result = data.search_results.results;
+      this.totalCount = data.search_results.metadata.number_search_results;
+      this.searchQuery = data.search_results.metadata.query;
+      if (reload) {
+        this.filters = data.search_results.metadata.aggregated.by_index_agg.buckets;
+      }
+    }, error => {
+      this.result = [];
+      this.totalCount = 0;
+    })
   }
 
   //Called when filter checkbox is checked or unchecked
@@ -102,7 +108,6 @@ export class SearchResultComponent implements OnInit {
       let indexes=this.searchFilters.map((data:SearchFiter)=>{
         return data.indexName;
       })
-      console.log("loaddata");
       if(filterCatetories.length>0){
         this.searchResult(Array.from(new Set(indexes)),
         {category:Array.from(new Set(filterCatetories))},false)

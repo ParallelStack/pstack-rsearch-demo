@@ -43,8 +43,17 @@ export class SearchComponent  {
       )
 
   submitSearch(){
-    if(this.model)
+    this.searchRequest(this.model);
+  }
+
+  searchRequest(searchQuery:string){
+    if(searchQuery)
     this.router.navigate(['/search'], 
-    { queryParams: { q: this.model}, queryParamsHandling: 'merge' });
+    { queryParams: { q: searchQuery}, queryParamsHandling: 'merge' });
+  }
+  
+  selectItem(event){
+    this.searchRequest(event.item);
+    console.log("Event",event);
   }
 }
