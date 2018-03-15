@@ -86,7 +86,7 @@
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-md-12">
-                            <a [href]="r._source.link" target="_blank">{{r._source.title}}</a>
+                            <a href="" (click)="showDetail(r,$event)" >{{r._source.title}}</a>
                         </div>
                         <div class="col-md-12">
                             {{ (r._source.description.length>6)? (r._source.description | slice:0:500)+'..':(r._source.description) }}

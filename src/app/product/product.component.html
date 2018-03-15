@@ -1,0 +1,42 @@
+<section class="header-pane">
+  <div class="row">
+      <div class="col-md-2">
+          <img src="/assets/logo.png" alt="" height="74px" [routerLink]="['/']">
+      </div>
+      <!-- <div class="col-md-6" style="padding:20px;">
+          <form (ngSubmit)="onSearch()">
+              <div class="form-group">
+                  <div class="input-group">
+                      <input id="typeahead-http" type="text" name="search" class="form-control" 
+                      [(ngModel)]="searchQuery" [ngbTypeahead]="search"
+                      (selectItem)="selectItem($event)"
+                      placeholder="Search" />
+                      <span class="input-group-btn">
+                          <button class="btn btn-primary" type="submit">Go!</button>
+                      </span>
+                  </div>
+              </div>
+          </form>
+      </div> -->
+  </div>
+</section>
+<div class="row" style="padding:50px;">
+  <div class="col-md-9">
+    <div class="row">
+      <div class="col-md-8">
+        <h4>{{detailInfo.title}}</h4>
+        <strong *ngIf="indexName=='products'">Price {{detailInfo.price | currency:'INR':true}}</strong>
+        <div style="margin-top:10px">
+          <p>Description</p>
+          <p>{{detailInfo.description}}</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <img [src]="detailInfo.thumbnail" alt="" width="250px">
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    Similar Products
+  </div>
+</div>

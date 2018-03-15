@@ -1,7 +1,7 @@
 import { SearchFiter } from './../search-filter';
 import { AppService } from './../app.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { Observable } from 'rxjs/Observable';
 
@@ -25,16 +25,7 @@ export class SearchResultComponent implements OnInit {
     { group: 'reviews', indexes: ['reviews'] },
     { group: 'general', indexes: ['feature_stories','popular_news','slideshows','videos','how_tos'] }
   ]
-  // defaultIndexs=["news",
-  //   "feature_stories",
-  //   "popular_news",
-  //   "reviews",
-  //   "slideshows",
-  //   "videos",
-  //   "how_tos",
-  //   "top_ten",
-  //   "products"];
-
+  
   defaultIndexs=["products"];
 
   searchFilters:SearchFiter[]=[];
@@ -45,7 +36,9 @@ export class SearchResultComponent implements OnInit {
     right: false
   };
 
-  constructor(private route: ActivatedRoute, private service: AppService) { }
+  constructor(private route: ActivatedRoute,
+     private service: AppService,
+    private router:Router) { }
 
   ngOnInit() {
     this.page = 1;
@@ -75,7 +68,6 @@ export class SearchResultComponent implements OnInit {
 
   selectItem(event){
     this.searchRequest(event.item,this.defaultIndexs,{}, true);
-    console.log("Event",event);
   }
 
   //Query for search result
@@ -99,7 +91,6 @@ export class SearchResultComponent implements OnInit {
 
   //Called when filter checkbox is checked or unchecked
   filterResult(indexName:string, fieldName:string, isChecked:boolean) {
-    console.log(this.filters);
     if (isChecked) {
       //add item filter
       this.searchFilters.push({indexName:indexName,fieldName:fieldName});
@@ -140,6 +131,19 @@ export class SearchResultComponent implements OnInit {
     let indexGroup=this.indexGroups.filter(item=>item.group==groupName)[0];
     console.log(indexGroup);
      this.searchResult(indexGroup.indexes,{}, true);
+  }
+
+  showDetail(detail:any,event){
+    event.preventDefault();
+
+    console.log(detail);
+    console.log(this.activeGroup);
+    let indexGroup=this.indexGroups.filter(item=>item.group==this.activeGroup)[0];
+    let activeIndex=indexGroup.indexes[0];
+    console.log(activeIndex);
+
+    this.router.navigate(['/product'],
+    { queryParams: {docId:detail.document_id, index: activeIndex} })
   }
 
 }

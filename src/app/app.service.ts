@@ -54,9 +54,11 @@ export class AppService {
           "page_count": 20,
           "page_num": pageNumber,
           "search_fields": ["title^5", "description"],
-          "result_fields": ["title", "link", "description", "category", "thumbnail", "price"],
+          "result_fields": ["title", "link", "description", "category", "thumbnail", "price", "index"],
           "nested_aggregations": 1,
-          "filters": filter,
+          "filters": {
+            "index_filter": filter
+          },
           "aggregations": [
             {
               "field_name": "category",
@@ -64,8 +66,6 @@ export class AppService {
               "term_agg_size": 20
             }
           ]
-
-
         }
       }, {
           observe: 'body',
@@ -74,5 +74,13 @@ export class AppService {
         })
   }
 
+  productDetail(indexName, docType, docId) {
+    let url = `${this.config.basePath}/indexes/${indexName}/document_types/${docType}/documents/${docId}?auth_token=${this.config.authToken}`;
+    return this.httpClient.get<any>(url, {
+      observe: 'body',
+      headers: new HttpHeaders()
+        .set('X-RSearch-App-ID', this.config.appId)
+    });
+  }
 
 }

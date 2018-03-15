@@ -10,19 +10,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchComponent } from './search/search.component';
 import { SearchResultComponent } from './search-result/search-result.component';
+import { ProductComponent } from './product/product.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
   { path: '', component: SearchComponent },
-  { path: 'search', component: SearchResultComponent }
+  { path: 'search', component: SearchResultComponent },
+  { path: 'product', component: ProductComponent }
 ]
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
-    SearchResultComponent
-  ],
+    SearchResultComponent,
+    ProductComponent
+],
   imports: [
     BrowserModule,
     RouterModule,
