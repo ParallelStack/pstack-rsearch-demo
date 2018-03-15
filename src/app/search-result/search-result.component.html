@@ -53,16 +53,24 @@
             </div>
             <div class="row">
                 <div class="col-md-10">
-                    <button type="button" class="btn btn-outline-primary" (click)="filter('products')" >
-                        Product
+                    <button type="button" class="btn btn-outline-primary" 
+                    [class.active]="activeGroup=='products'"
+                    (click)="filter('products')" >
+                        Products
                       </button>
-                      <button type="button" class="btn btn-outline-primary" (click)="filter('news')">
+                      <button type="button" class="btn btn-outline-primary"
+                      [class.active]="activeGroup=='news'"
+                      (click)="filter('news')">
                         News
                       </button>
-                      <button type="button" class="btn btn-outline-primary" (click)="filter('reviews')">
+                      <button type="button" class="btn btn-outline-primary" 
+                      [class.active]="activeGroup=='reviews'"
+                      (click)="filter('reviews')">
                         Reviews
                       </button>
-                      <button type="button" class="btn btn-outline-primary" (click)="filter('general')">
+                      <button type="button" class="btn btn-outline-primary" 
+                      [class.active]="activeGroup=='general'"
+                      (click)="filter('general')">
                         General
                       </button>
                       <hr>

@@ -18,6 +18,13 @@ export class SearchResultComponent implements OnInit {
   filters: any = [];
   result: any;
   page: number;
+  activeGroup:string="products"
+  indexGroups:any =[
+    { group: 'products', indexes: ['products'] },
+    { group: 'news', indexes: ['news'] },
+    { group: 'reviews', indexes: ['reviews'] },
+    { group: 'general', indexes: ['feature_stories','popular_news','slideshows','videos','how_tos'] }
+  ]
   // defaultIndexs=["news",
   //   "feature_stories",
   //   "popular_news",
@@ -128,9 +135,11 @@ export class SearchResultComponent implements OnInit {
     }
   }
 
-  filter(index:string){
-    let indexArray:string[]=[index];
-    this.searchResult(indexArray,{}, true);
+  filter(groupName:string){
+    this.activeGroup=groupName;
+    let indexGroup=this.indexGroups.filter(item=>item.group==groupName)[0];
+    console.log(indexGroup);
+     this.searchResult(indexGroup.indexes,{}, true);
   }
 
 }

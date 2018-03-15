@@ -23,17 +23,17 @@ export class AppService {
     return this.httpClient
       .post(url, {
         "suggest": {
-		  "indexes": ["news", "feature_stories", "popular_news", "reviews","slideshows","videos","how_tos","top_ten","products"],
+          "indexes": ["products"],
           "query": term,
           "fields": ["title"],
           "fuzzy": 1,
           "size": 10
         }
       }, {
-        observe: 'body',
-        headers: new HttpHeaders()
-          .set('X-RSearch-App-ID', this.config.appId)
-      })
+          observe: 'body',
+          headers: new HttpHeaders()
+            .set('X-RSearch-App-ID', this.config.appId)
+        })
       .map(data => {
         let results = data["suggest_results"].results;
         let suggestions = [];
@@ -44,7 +44,7 @@ export class AppService {
       })
   }
 
-  search(searchText: string, indexs:string[],filter:any, pageNumber: number) {
+  search(searchText: string, indexs: string[], filter: any, pageNumber: number) {
     let url = `${this.config.basePath}/indexes/search?auth_token=${this.config.authToken}`;
     return this.httpClient
       .post<any>(url, {
@@ -54,7 +54,7 @@ export class AppService {
           "page_count": 20,
           "page_num": pageNumber,
           "search_fields": ["title^5", "description"],
-          "result_fields": ["title", "link", "description", "category", "thumbnail","price"],
+          "result_fields": ["title", "link", "description", "category", "thumbnail", "price"],
           "nested_aggregations": 1,
           "filters": filter,
           "aggregations": [
@@ -68,10 +68,10 @@ export class AppService {
 
         }
       }, {
-        observe: 'body',
-        headers: new HttpHeaders()
-          .set('X-RSearch-App-ID', this.config.appId)
-      })
+          observe: 'body',
+          headers: new HttpHeaders()
+            .set('X-RSearch-App-ID', this.config.appId)
+        })
   }
 
 
