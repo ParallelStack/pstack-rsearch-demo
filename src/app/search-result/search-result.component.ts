@@ -30,12 +30,6 @@ export class SearchResultComponent implements OnInit {
 
   searchFilters:SearchFiter[]=[];
 
-  model = {
-    left: true,
-    middle: false,
-    right: false
-  };
-
   constructor(private route: ActivatedRoute,
      private service: AppService,
     private router:Router) { }
@@ -46,29 +40,18 @@ export class SearchResultComponent implements OnInit {
       .filter(params => params.q)
       .subscribe(params => {
         this.searchQuery = params.q;
-        this.onSearch();
+        this.onSearchQuery(this.searchQuery);
       });
   }
 
-  search = (text$: Observable<string>) =>
-    text$
-      .debounceTime(100)
-      .distinctUntilChanged()
-      .switchMap(term =>
-        this.service.getSuggestion(term)
-          .catch(() => {
-            return Observable.of([]);
-          })
-      )
-
-  //Called when search button is clicked, this will reset all the filters    
-  onSearch() {
-    this.searchResult(this.defaultIndexs,{}, true);
+  onSearchQuery(event) {
+    console.log(event)
+    if (event){
+      this.searchRequest(event,this.defaultIndexs,{}, true);
+    }
   }
 
-  selectItem(event){
-    this.searchRequest(event.item,this.defaultIndexs,{}, true);
-  }
+ 
 
   //Query for search result
   searchResult(indexes:string[],filter: any, reload: boolean) {

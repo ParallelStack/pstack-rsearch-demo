@@ -4,19 +4,7 @@
             <img src="/assets/logo.png" alt="" height="74px" [routerLink]="['/']">
         </div>
         <div class="col-md-6" style="padding:20px;">
-            <form (ngSubmit)="onSearch()">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input id="typeahead-http" type="text" name="search" class="form-control" 
-                        [(ngModel)]="searchQuery" [ngbTypeahead]="search"
-                        (selectItem)="selectItem($event)"
-                        placeholder="Search" />
-                        <span class="input-group-btn">
-                            <button class="btn btn-primary" type="submit">Go!</button>
-                        </span>
-                    </div>
-                </div>
-            </form>
+            <app-search-bar [searchQuery]="searchQuery" (onSearchQuery)="onSearchQuery($event)"></app-search-bar>
         </div>
     </div>
 </section>

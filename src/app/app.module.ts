@@ -11,6 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchComponent } from './search/search.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { ProductComponent } from './product/product.component';
+import { SearchBarComponent } from './search-bar/search-bar.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -24,7 +25,10 @@ const routes: Routes = [
     AppComponent,
     SearchComponent,
     SearchResultComponent,
-    ProductComponent
+    ProductComponent,
+    SearchBarComponent
+,
+    SearchBarComponent
 ],
   imports: [
     BrowserModule,
