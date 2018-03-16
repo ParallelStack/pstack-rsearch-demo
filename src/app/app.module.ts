@@ -12,6 +12,7 @@ import { SearchComponent } from './search/search.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { ProductComponent } from './product/product.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
+import { AffiliateComponent } from './affiliate/affiliate.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -26,9 +27,8 @@ const routes: Routes = [
     SearchComponent,
     SearchResultComponent,
     ProductComponent,
-    SearchBarComponent
-,
-    SearchBarComponent
+    SearchBarComponent,
+    AffiliateComponent
 ],
   imports: [
     BrowserModule,

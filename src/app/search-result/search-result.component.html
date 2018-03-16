@@ -13,27 +13,29 @@
     <div class="row">
         <div class="col-md-3 left-pane">
             <div *ngFor="let filter of filters">
-                  <ngb-accordion #acc="ngbAccordion" activeIds="static-1">
+                <ngb-accordion #acc="ngbAccordion" activeIds="static-1">
                     <ngb-panel [title]="" id="static-1">
-                            <ng-template ngbPanelTitle>
-                                   {{filter.key | uppercase}} ({{filter.doc_count}})
-                                  </ng-template>
-                      <ng-template ngbPanelContent>
-                       <div *ngIf="filter.category_agg.buckets.length>0;else defaultFilter" >
-                            <div *ngFor="let item of filter.category_agg.buckets">
-                                <label> <input type="checkbox" (change)="filterResult(filter.key, item.key,$event.target.checked)">  {{item.key}} ({{item.doc_count}}) </label>
+                        <ng-template ngbPanelTitle>
+                            {{filter.key | uppercase}} ({{filter.doc_count}})
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                            <div *ngIf="filter.category_agg.buckets.length>0;else defaultFilter">
+                                <div *ngFor="let item of filter.category_agg.buckets">
+                                    <label>
+                                        <input type="checkbox" (change)="filterResult(filter.key, item.key,$event.target.checked)"> {{item.key}} ({{item.doc_count}}) </label>
+                                </div>
                             </div>
-                       </div>
-                       <ng-template #defaultFilter>
-                        <label> <input type="checkbox" (change)="filterResult(filter.key,'all' ,$event.target.checked)"> All </label>
-                       </ng-template>
-                        
-                      </ng-template>
+                            <ng-template #defaultFilter>
+                                <label>
+                                    <input type="checkbox" (change)="filterResult(filter.key,'all' ,$event.target.checked)"> All </label>
+                            </ng-template>
+
+                        </ng-template>
                     </ngb-panel>
-                  </ngb-accordion>
+                </ngb-accordion>
 
             </div>
-            
+
         </div>
         <div class="col-md-9" style="padding:20px;">
             <div class="pull-right" style="padding:10px 0px;">
@@ -41,48 +43,43 @@
             </div>
             <div class="row">
                 <div class="col-md-10">
-                    <button type="button" class="btn btn-outline-primary" 
-                    [class.active]="activeGroup=='products'"
-                    (click)="filter('products')" >
+                    <button type="button" class="btn btn-outline-primary" [class.active]="activeGroup=='products'" (click)="filter('products')">
                         Products
-                      </button>
-                      <button type="button" class="btn btn-outline-primary"
-                      [class.active]="activeGroup=='news'"
-                      (click)="filter('news')">
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" [class.active]="activeGroup=='news'" (click)="filter('news')">
                         News
-                      </button>
-                      <button type="button" class="btn btn-outline-primary" 
-                      [class.active]="activeGroup=='reviews'"
-                      (click)="filter('reviews')">
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" [class.active]="activeGroup=='reviews'" (click)="filter('reviews')">
                         Reviews
-                      </button>
-                      <button type="button" class="btn btn-outline-primary" 
-                      [class.active]="activeGroup=='general'"
-                      (click)="filter('general')">
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" [class.active]="activeGroup=='general'" (click)="filter('general')">
                         General
-                      </button>
-                      <hr>
+                    </button>
+                    <hr>
                 </div>
             </div>
 
             <div class="row" *ngFor="let r of result" style="margin-bottom:20px; border-bottom:1px solid gary">
                 <div class="col-md-2" width="120px">
                     <a [href]="r._source.link" target="_blank">
-                        <img [src]="r._source?.thumbnail" width="120px" >
-                   </a>
+                        <img [src]="r._source?.thumbnail" width="120px">
+                    </a>
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-7">
                     <div class="row">
                         <div class="col-md-12">
-                            <a href="" (click)="showDetail(r,$event)" >{{r._source.title}}</a>
+                            <a href="" (click)="showDetail(r,$event)">{{r._source.title}}</a>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12" style="word-wrap: break-word;">
                             {{ (r._source.description.length>6)? (r._source.description | slice:0:500)+'..':(r._source.description) }}
                         </div>
-                        <div class="col-md-12" style="margin-top: 10px;" *ngIf="r._source.price" >
-                           <strong>Price {{r._source.price | currency:'INR':true}}</strong>
+                        <div class="col-md-12" style="margin-top: 10px;" *ngIf="activeGroup=='products' && r._source.price">
+                            <strong>Price {{r._source.price | currency:'INR':true}}</strong>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-3" *ngIf="activeGroup=='products'">
+                        <app-affiliate></app-affiliate>
                 </div>
             </div>
 
@@ -93,3 +90,4 @@
         </div>
     </div>
 </section>
+
