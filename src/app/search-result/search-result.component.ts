@@ -18,21 +18,26 @@ export class SearchResultComponent implements OnInit {
   filters: any = [];
   result: any;
   page: number;
-  activeGroup:string="products"
-  indexGroups:any =[
-    { group: 'products', indexes: ['products'] },
-    { group: 'news', indexes: ['news'] },
-    { group: 'reviews', indexes: ['reviews'] },
-    { group: 'general', indexes: ['feature_stories','popular_news','slideshows','videos','how_tos'] }
-  ]
-  
-  defaultIndexs=["products"];
+  activeIndex: string = "products"
 
-  searchFilters:SearchFiter[]=[];
+  indexList: any = [
+    { title: 'Products', index: 'products' },
+    { title: 'News', index: 'news' },
+    { title: 'Reviews', index: 'reviews' },
+    { title: 'Feature Stories', index: 'feature_stories' },
+    { title: 'Popular News', index: 'popular_news' },
+    { title: 'Slideshows', index: 'slideshows' },
+    { title: 'Videos', index: 'videos' },
+    { title: 'How Tos', index: 'how_tos' },
+  ]
+
+  defaultIndexs = ["products"];
+
+  searchFilters: SearchFiter[] = [];
 
   constructor(private route: ActivatedRoute,
-     private service: AppService,
-    private router:Router) { }
+    private service: AppService,
+    private router: Router) { }
 
   ngOnInit() {
     this.page = 1;
@@ -45,88 +50,80 @@ export class SearchResultComponent implements OnInit {
   }
 
   onSearchQuery(event) {
-    console.log(event)
-    if (event){
-      this.searchRequest(event,this.defaultIndexs,{}, true);
+    if (event) {
+      this.searchRequest(event, this.defaultIndexs, {}, true);
     }
   }
 
- 
+
 
   //Query for search result
-  searchResult(indexes:string[],filter: any, reload: boolean) {
-    this.searchRequest(this.searchQuery,indexes,filter,reload);
+  searchResult(indexes: string[], filter: any, reload: boolean) {
+    this.searchRequest(this.searchQuery, indexes, filter, reload);
   }
-  searchRequest(searchQuery:string, indexes:string[],filter: any, reload: boolean){
+  searchRequest(searchQuery: string, indexes: string[], filter: any, reload: boolean) {
     this.service.search(searchQuery, indexes, filter, this.page)
-    .subscribe(data => {
-      this.result = data.search_results.results;
-      this.totalCount = data.search_results.metadata.number_search_results;
-      this.searchQuery = data.search_results.metadata.query;
-      if (reload) {
-        this.filters = data.search_results.metadata.aggregated.by_index_agg.buckets;
-      }
-    }, error => {
-      this.result = [];
-      this.totalCount = 0;
-    })
+      .subscribe(data => {
+        this.result = data.search_results.results;
+        this.totalCount = data.search_results.metadata.number_search_results;
+        this.searchQuery = data.search_results.metadata.query;
+        if (reload) {
+          this.filters = data.search_results.metadata.aggregated.by_index_agg.buckets;
+        }
+      }, error => {
+        this.result = [];
+        this.totalCount = 0;
+      })
   }
 
   //Called when filter checkbox is checked or unchecked
-  filterResult(indexName:string, fieldName:string, isChecked:boolean) {
+  filterResult(indexName: string, fieldName: string, isChecked: boolean) {
     if (isChecked) {
       //add item filter
-      this.searchFilters.push({indexName:indexName,fieldName:fieldName});
+      this.searchFilters.push({ indexName: indexName, fieldName: fieldName });
     } else {
       //remove item from filter
-      this.searchFilters= this.searchFilters.filter((data:SearchFiter)=>{
-        return !(data.fieldName==fieldName && data.indexName==indexName)
+      this.searchFilters = this.searchFilters.filter((data: SearchFiter) => {
+        return !(data.fieldName == fieldName && data.indexName == indexName)
       });
     }
     this.loadData();
   }
 
-  loadData(){
-    if(this.searchFilters.length>0){
-      let filterCatetories=this.searchFilters
-        .map((data:SearchFiter)=>{
-          return  data.fieldName;
-      })
-      .filter(data=>data!=="all");
+  loadData() {
+    if (this.searchFilters.length > 0) {
+      let filterCatetories = this.searchFilters
+        .map((data: SearchFiter) => {
+          return data.fieldName;
+        })
+        .filter(data => data !== "all");
 
-      let indexes=this.searchFilters.map((data:SearchFiter)=>{
+      let indexes = this.searchFilters.map((data: SearchFiter) => {
         return data.indexName;
       })
-      if(filterCatetories.length>0){
+      if (filterCatetories.length > 0) {
         this.searchResult(Array.from(new Set(indexes)),
-        {category:Array.from(new Set(filterCatetories))},false)
-      }else{
-        this.searchResult(Array.from(new Set(indexes)),{},false)
+          { category: Array.from(new Set(filterCatetories)) }, false)
+      } else {
+        this.searchResult(Array.from(new Set(indexes)), {}, false)
       }
-      
-    }else{
-      this.searchResult(this.defaultIndexs,{}, false);
+
+    } else {
+      this.searchResult(this.defaultIndexs, {}, false);
     }
   }
 
-  filter(groupName:string){
-    this.activeGroup=groupName;
-    let indexGroup=this.indexGroups.filter(item=>item.group==groupName)[0];
-    console.log(indexGroup);
-     this.searchResult(indexGroup.indexes,{}, true);
+  filterByIndex(indexName: string) {
+    this.activeIndex = indexName;
+    this.searchResult([indexName], {}, true);
   }
 
-  showDetail(detail:any,event){
+  showDetail(detail: any, event) {
     event.preventDefault();
-
-    console.log(detail);
-    console.log(this.activeGroup);
-    let indexGroup=this.indexGroups.filter(item=>item.group==this.activeGroup)[0];
-    let activeIndex=indexGroup.indexes[0];
-    console.log(activeIndex);
-
-    this.router.navigate(['/product'],
-    { queryParams: {docId:detail.document_id, index: activeIndex} })
+    if(this.activeIndex=='products'){
+      this.router.navigate(['/product'],
+      { queryParams: { docId: detail.document_id, index: this.activeIndex } })
+    }
   }
 
 }

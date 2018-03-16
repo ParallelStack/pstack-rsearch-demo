@@ -13,6 +13,7 @@ import { SearchResultComponent } from './search-result/search-result.component';
 import { ProductComponent } from './product/product.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { AffiliateComponent } from './affiliate/affiliate.component';
+import { CommonModule } from '@angular/common';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -24,6 +25,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
+
     SearchComponent,
     SearchResultComponent,
     ProductComponent,
@@ -31,6 +33,7 @@ const routes: Routes = [
     AffiliateComponent
 ],
   imports: [
+    CommonModule,
     BrowserModule,
     RouterModule,
     FormsModule,
