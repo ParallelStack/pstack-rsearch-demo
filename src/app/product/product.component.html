@@ -23,78 +23,80 @@
         <img [src]="detailInfo.thumbnail" alt="" width="250px">
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="videosList.length>0" style="margin-bottom: 20px">
       <div class="col-md-12">
-        <div class="page-header">
-          <h5>Videos</h5>
-        </div>
+        <strong>Videos</strong>
+        <hr>
         <div class="row">
-          <div class="col-sm-6 col-md-3" *ngFor="let item of videosList">
-            <div class="thumbnail">
-              <img [src]="item.thumbnail" [alt]="item.title" width="193px">
-              <div class="caption">
-                <div>{{item.title}}</div>
-                <p>{{item.description | slice:0:100}}</p>
+            <div class="col-md-3" *ngFor="let item of videosList">
+              <div class="card">
+                  <img class="card-img-top" [src]="item.thumbnail" [alt]="item.title">
+                  <div class="card-body">
+                    <p class="card-text">
+                        {{item.title | slice:0:40}} ..
+                    </p>
+                  </div>
               </div>
-            </div>
-          </div>
-        
+              </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="page-header">
-          <h5>News</h5>
-        </div>
-        <div class="row">
-          <div class="col-sm-6 col-md-3" *ngFor="let item of newsList">
-            <div class="thumbnail">
-              <img [src]="item.thumbnail" [alt]="item.title" width="193px">
-              <div class="caption">
-                <div>{{item.title}}</div>
-                <p style="word-wrap: break-word;">{{item.description | slice:0:100}}</p>
-              </div>
-            </div>
+
+    <div class="row" *ngIf="videosList.length>0" style="margin-bottom: 20px">
+        <div class="col-md-12">
+          <strong>News</strong>
+          <hr>
+          <div class="row">
+              <div class="col-md-3" *ngFor="let item of newsList">
+                <div class="card">
+                    <img class="card-img-top" [src]="item.thumbnail" [alt]="item.title">
+                    <div class="card-body">
+                      <p class="card-text">
+                          {{item.title | slice:0:40}} ..
+                      </p>
+                    </div>
+                </div>
+                </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="page-header">
-          <h5>Slides Shows</h5>
-        </div>
-        <div class="row">
-          <div class="col-sm-6 col-md-3" *ngFor="let item of slideShowsList">
-            <div class="thumbnail">
-              <div class="caption">
-                <div>{{item.title}}</div>
-                <p style="word-wrap: break-word;">{{item.description | slice:0:100}}</p>
-              </div>
+
+      <div class="row" *ngIf="videosList.length>0" style="margin-bottom: 20px">
+          <div class="col-md-12">
+            <strong>Slide Shows</strong>
+            <hr>
+            <div class="row">
+                <div class="col-md-3" *ngFor="let item of slideShowsList">
+                  <div class="card">
+                      <div class="card-body">
+                        <p class="card-text">
+                            {{item.title | slice:0:40}} 
+                        </p>
+                      </div>
+                  </div>
+                  </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="page-header">
-          <h5>Reviews</h5>
-        </div>
-        <div class="row">
-          <div class="col-sm-6 col-md-3" *ngFor="let item of reviewsList">
-            <div class="thumbnail">
-              <img [src]="item.thumbnail" [alt]="item.title" width="193px">
-              <div class="caption">
-                <div>{{item.title}}</div>
-                <p style="word-wrap: break-word;">{{item.description | slice:0:100}}</p>
+        <div class="row" *ngIf="videosList.length>0" style="margin-bottom: 20px">
+            <div class="col-md-12">
+              <strong>Reviews</strong>
+              <hr>
+              <div class="row">
+                  <div class="col-md-3" *ngFor="let item of reviewsList">
+                    <div class="card">
+                        <img class="card-img-top" [src]="item.thumbnail" [alt]="item.title">
+                        <div class="card-body">
+                          <p class="card-text">
+                              {{item.title | slice:0:40}} ..
+                          </p>
+                        </div>
+                    </div>
+                    </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+  
   </div>
   <div class="col-md-3">
       <strong>Similar Products</strong>
