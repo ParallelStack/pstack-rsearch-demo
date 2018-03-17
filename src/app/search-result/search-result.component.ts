@@ -62,7 +62,7 @@ export class SearchResultComponent implements OnInit {
     this.searchRequest(this.searchQuery, indexes, filter, reload);
   }
   searchRequest(searchQuery: string, indexes: string[], filter: any, reload: boolean) {
-    this.service.search(searchQuery, indexes, filter, this.page)
+    this.service.search(searchQuery, indexes, filter, this.page,20)
       .subscribe(data => {
         this.result = data.search_results.results;
         this.totalCount = data.search_results.metadata.number_search_results;
@@ -119,10 +119,11 @@ export class SearchResultComponent implements OnInit {
   }
 
   showDetail(detail: any, event) {
+    console.log("detail",detail);
     event.preventDefault();
     if(this.activeIndex=='products'){
       this.router.navigate(['/product'],
-      { queryParams: { docId: detail.document_id, index: this.activeIndex } })
+      { queryParams: {q:detail._source.title, docId: detail.document_id, index: this.activeIndex } })
     }else{
       this.router.navigate(['/artical'],
       { queryParams: { docId: detail.document_id, index: this.activeIndex } })
