@@ -123,6 +123,9 @@ export class SearchResultComponent implements OnInit {
     if(this.activeIndex=='products'){
       this.router.navigate(['/product'],
       { queryParams: { docId: detail.document_id, index: this.activeIndex } })
+    }else{
+      this.router.navigate(['/artical'],
+      { queryParams: { docId: detail.document_id, index: this.activeIndex } })
     }
   }
 

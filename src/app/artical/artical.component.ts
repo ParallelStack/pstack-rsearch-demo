@@ -1,18 +1,19 @@
-import { element } from 'protractor';
 import { AppService } from './../app.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  selector: 'app-artical',
+  templateUrl: './artical.component.html',
+  styleUrls: ['./artical.component.css']
 })
-export class ProductComponent implements OnInit {
+export class ArticalComponent implements OnInit {
   docId: string;
   indexName: string;
   detailInfo: any = {};
-  similarProducts:any=[];
+
+  relatedProductList:any=[];
+  relatedContentList:any=[];
 
   constructor(private activeRoute: ActivatedRoute,
     private service: AppService,
@@ -28,20 +29,35 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     this.service.productDetail(this.indexName, this.indexName, this.docId)
       .subscribe(data => {
+        console.log(data);
         this.detailInfo = {};
         data.document.result.fields.forEach(element => {
           this.detailInfo[element.name] = element.value;
         });
-      });
-      
+        console.log(data);
+        console.log(this.detailInfo);
+      })
+
       this.service.relatedProduct(this.indexName,this.indexName,this.docId)
       .subscribe(data=>{
           let results=data.algorithm_results.results;
-          this.similarProducts=results.map(item=>{
+          this.relatedProductList=results.map(item=>{
             return  {
               docId:item.document_id,
               title:item._source.title,
               thumbnail:item._source.thumbnail,
+              description:item._source.description
+            };
+          });
+      })
+
+      this.service.relatedContent(this.indexName,this.indexName,this.docId)
+      .subscribe(data=>{
+        let results=data.algorithm_results.results;
+          this.relatedContentList=results.map(item=>{
+            return  {
+              docId:item.document_id,
+              title:item._source.title,
               description:item._source.description
             };
           });

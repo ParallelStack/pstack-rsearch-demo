@@ -25,13 +25,20 @@
     </div>
   </div>
   <div class="col-md-3">
-      <strong>Similar Products</strong>
-      <ul class="list-group">
-        <li class="list-group-item" *ngFor="let rp of similarProducts">
-          <div>{{rp.title}}</div>
-          <img [src]="rp.thumbnail" alt="" width="80px">
-          <p>{{rp.description | slice:0:50}}..</p>
-        </li>
-      </ul>
+    <strong>Related Products</strong>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let rp of relatedProductList">
+        <div>{{rp.title}}</div>
+        <img [src]="rp.thumbnail" alt="" width="80px">
+        <p>{{rp.description | slice:0:50}}..</p>
+      </li>
+    </ul>
+
+    <strong>Related Content</strong>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let rp of relatedContentList">
+        <p style="word-wrap: break-word">{{rp.title | slice:0:100}}..</p>
+      </li>
+    </ul>
   </div>
 </div>

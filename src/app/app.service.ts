@@ -83,4 +83,56 @@ export class AppService {
     });
   }
 
+  relatedProduct(indexName,docType,docId){
+    let url = `${this.config.basePath}/indexes/algorithms/similardocs?auth_token=${this.config.authToken}`;
+    return this.httpClient.post<any>(url,{
+      "algorithm": {
+        "similar": {
+          "indexes": ['products'],
+          "similar_fields": ["title", "description"],
+          "page_count": 4,
+          "page_num": 1,
+          "origin": [
+            {
+              "index": indexName,
+              "document_type": docType,
+              "document_id": docId
+            }
+          ]
+        }
+      }
+    },
+    {
+      observe: 'body',
+      headers: new HttpHeaders()
+        .set('X-RSearch-App-ID', this.config.appId)
+    })
+  }
+
+  relatedContent(indexName,docType,docId){
+    let url = `${this.config.basePath}/indexes/algorithms/similardocs?auth_token=${this.config.authToken}`;
+    return this.httpClient.post<any>(url,{
+      "algorithm": {
+        "similar": {
+          "indexes": ['news'],
+          "similar_fields": ["title", "description"],
+          "page_count": 4,
+          "page_num": 1,
+          "origin": [
+            {
+              "index": indexName,
+              "document_type": docType,
+              "document_id": docId
+            }
+          ]
+        }
+      }
+    },
+    {
+      observe: 'body',
+      headers: new HttpHeaders()
+        .set('X-RSearch-App-ID', this.config.appId)
+    })
+  }
+
 }
