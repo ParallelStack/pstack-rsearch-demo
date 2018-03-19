@@ -26,8 +26,8 @@ export class AppService {
           "indexes": ["products"],
           "query": term,
           "fields": ["title"],
-          "fuzzy": 1,
-          "size": 10
+          "fuzzy": 0,
+          "size": 20
         }
       }, {
           observe: 'body',
@@ -56,6 +56,7 @@ export class AppService {
           "search_fields": ["title^5", "description"],
           "result_fields": ["title", "link", "description", "category", "thumbnail", "price", "index"],
           "nested_aggregations": 1,
+		  "fuzzy": 1,
           "filters": {
             "index_filter": filter
           },
