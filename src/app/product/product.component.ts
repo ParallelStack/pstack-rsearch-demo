@@ -110,6 +110,17 @@ export class ProductComponent implements OnInit {
 
   }
 
+  searchOther(event,indexName:string,docId:string){
+    event.preventDefault();
+    if(indexName=='products'){
+      
+    }else{
+      this.router.navigate(['/artical'],
+      { queryParams: { docId: docId, index: indexName} })
+    }
+    
+  }
+
   searchQuery(event) {
     if (event)
       this.router.navigate(['/search'],

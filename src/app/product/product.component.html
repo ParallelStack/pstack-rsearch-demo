@@ -27,72 +27,66 @@
       <div class="col-md-12">
         <strong>Videos</strong>
         <hr>
-        <div class="row">
-            <div class="col-md-3" *ngFor="let item of videosList">
-              <div class="card">
+        
+            <div class="card-deck">
+              <div class="card" *ngFor="let item of videosList">
                   <img class="card-img-top" [src]="item.thumbnail" [alt]="item.title">
                   <div class="card-body">
-                    <p class="card-text">
-                        {{item.title | slice:0:40}} ..
-                    </p>
+                    <a href="" (click)="searchOther($event, 'videos', item.docId)" class="card-text">
+                        {{item.title | slice:0:100}}
+                    </a>
                   </div>
               </div>
               </div>
-        </div>
       </div>
     </div>
 
-    <div class="row" *ngIf="videosList.length>0" style="margin-bottom: 20px">
+    <div class="row " *ngIf="newsList.length>0" style="margin-bottom: 20px">
         <div class="col-md-12">
           <strong>News</strong>
           <hr>
-          <div class="row">
-              <div class="col-md-3" *ngFor="let item of newsList">
-                <div class="card">
+              <div class="card-deck" >
+                <div class="card" *ngFor="let item of newsList">
                     <img class="card-img-top" [src]="item.thumbnail" [alt]="item.title">
                     <div class="card-body">
-                      <p class="card-text">
-                          {{item.title | slice:0:40}} ..
-                      </p>
+                      <a href="" (click)="searchOther($event, 'news', item.docId)" class="card-text">
+                        {{item.title | slice:0:100}}
+                    </a>
                     </div>
                 </div>
                 </div>
-          </div>
+          
         </div>
       </div>
 
-      <div class="row" *ngIf="videosList.length>0" style="margin-bottom: 20px">
+      <div class="row" *ngIf="slideShowsList.length>0" style="margin-bottom: 20px">
           <div class="col-md-12">
             <strong>Slide Shows</strong>
             <hr>
-            <div class="row">
-                <div class="col-md-3" *ngFor="let item of slideShowsList">
-                  <div class="card">
+                <div class="card-deck" >
+                  <div class="card" *ngFor="let item of slideShowsList">
                       <div class="card-body">
-                        <p class="card-text">
-                            {{item.title | slice:0:40}} 
-                        </p>
+                        <a href="" (click)="searchOther($event, 'slideshows', item.docId)" class="card-text">
+                          {{item.title | slice:0:100}}
+                      </a>
                       </div>
                   </div>
                   </div>
-            </div>
           </div>
         </div>
-        <div class="row" *ngIf="videosList.length>0" style="margin-bottom: 20px">
+        <div class="row" *ngIf="reviewsList.length>0" style="margin-bottom: 20px">
             <div class="col-md-12">
               <strong>Reviews</strong>
               <hr>
-              <div class="row">
-                  <div class="col-md-3" *ngFor="let item of reviewsList">
-                    <div class="card">
-                        <img class="card-img-top" [src]="item.thumbnail" [alt]="item.title">
-                        <div class="card-body">
-                          <p class="card-text">
-                              {{item.title | slice:0:40}} ..
-                          </p>
-                        </div>
-                    </div>
-                    </div>
+              <div class="card-deck">
+                <div class="card" *ngFor="let item of reviewsList">
+                  <img class="card-img-top" [src]="item.thumbnail" [alt]="item.title">
+                  <div class="card-body">
+                    <a href="" (click)="searchOther($event, 'reviews', item.docId)" class="card-text">
+                      {{item.title | slice:0:100}}
+                  </a>
+                  </div>
+              </div>
               </div>
             </div>
           </div>
@@ -102,7 +96,8 @@
       <strong>Similar Products</strong>
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let rp of similarProducts">
-          <div>{{rp.title}}</div>
+          <div>
+             {{rp.title}}</div>
           <img [src]="rp.thumbnail" alt="" width="80px">
           <p>{{rp.description | slice:0:50}}..</p>
         </li>
