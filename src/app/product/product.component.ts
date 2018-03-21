@@ -33,80 +33,86 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadPageContent();
+  }
+
+  loadPageContent(){
     this.service.productDetail(this.indexName, this.indexName, this.docId)
-      .subscribe(data => {
-        this.detailInfo = {};
-        data.document.result.fields.forEach(element => {
-          this.detailInfo[element.name] = element.value;
-        });
+    .subscribe(data => {
+      this.detailInfo = {};
+      data.document.result.fields.forEach(element => {
+        this.detailInfo[element.name] = element.value;
       });
+    });
+    
+    this.service.relatedProduct(this.indexName,this.indexName,this.docId)
+    .subscribe(data=>{
+        let results=data.algorithm_results.results;
+        
+        this.similarProducts=results.map(item=>{
+          return  {
+            docId:item.document_id,
+            price:item._source.price,
+            title:item._source.title,
+            thumbnail:item._source.thumbnail,
+            description:item._source.description
+          };
+        });
+        console.log("silimar product",this.similarProducts)
+    })
+
+    this.service.search(this.searchString, ['videos'], {}, 1,4)
+    .subscribe(data => {
+      let results=data.search_results.results;
+      this.videosList = results.map(item=>{
+        return {
+            docId:item.document_id,
+            title:item._source.title,
+            description:item._source.description,
+            thumbnail:item._source.thumbnail
+        }
+      })
       
-      this.service.relatedProduct(this.indexName,this.indexName,this.docId)
-      .subscribe(data=>{
-          let results=data.algorithm_results.results;
-          this.similarProducts=results.map(item=>{
-            return  {
-              docId:item.document_id,
-              title:item._source.title,
-              thumbnail:item._source.thumbnail,
-              description:item._source.description
-            };
-          });
-      })
+    })
 
-      this.service.search(this.searchString, ['videos'], {}, 1,4)
-      .subscribe(data => {
-        let results=data.search_results.results;
-        this.videosList = results.map(item=>{
-          return {
-              docId:item.document_id,
-              title:item._source.title,
-              description:item._source.description,
-              thumbnail:item._source.thumbnail
-          }
-        })
-        
+    this.service.search(this.searchString, ['news'], {}, 1,4)
+    .subscribe(data => {
+      let results=data.search_results.results;
+      this.newsList = results.map(item=>{
+        return {
+            docId:item.document_id,
+            title:item._source.title,
+            description:item._source.description,
+            thumbnail:item._source.thumbnail
+        }
       })
-
-      this.service.search(this.searchString, ['news'], {}, 1,4)
-      .subscribe(data => {
-        let results=data.search_results.results;
-        this.newsList = results.map(item=>{
-          return {
-              docId:item.document_id,
-              title:item._source.title,
-              description:item._source.description,
-              thumbnail:item._source.thumbnail
-          }
-        })
-        
+      
+    })
+    this.service.search(this.searchString, ['slideshows'], {}, 1,4)
+    .subscribe(data => {
+      let results=data.search_results.results;
+      this.slideShowsList = results.map(item=>{
+        return {
+            docId:item.document_id,
+            title:item._source.title,
+            description:item._source.description,
+            thumbnail:item._source.thumbnail
+        }
       })
-      this.service.search(this.searchString, ['slideshows'], {}, 1,4)
-      .subscribe(data => {
-        let results=data.search_results.results;
-        this.slideShowsList = results.map(item=>{
-          return {
-              docId:item.document_id,
-              title:item._source.title,
-              description:item._source.description,
-              thumbnail:item._source.thumbnail
-          }
-        })
-        
+      
+    })
+    this.service.search(this.searchString, ['reviews'], {}, 1,4)
+    .subscribe(data => {
+      let results=data.search_results.results;
+      this.reviewsList = results.map(item=>{
+        return {
+            docId:item.document_id,
+            title:item._source.title,
+            description:item._source.description,
+            thumbnail:item._source.thumbnail
+        }
       })
-      this.service.search(this.searchString, ['reviews'], {}, 1,4)
-      .subscribe(data => {
-        let results=data.search_results.results;
-        this.reviewsList = results.map(item=>{
-          return {
-              docId:item.document_id,
-              title:item._source.title,
-              description:item._source.description,
-              thumbnail:item._source.thumbnail
-          }
-        })
-        
-      })
+    })
 
   }
 
@@ -127,4 +133,10 @@ export class ProductComponent implements OnInit {
         { queryParams: { q: event } });
   }
 
+  show($event,product){
+    $event.preventDefault();
+    this.searchQuery=product.title;
+    this.docId=product.docId;
+    this.loadPageContent();
+  }
 }

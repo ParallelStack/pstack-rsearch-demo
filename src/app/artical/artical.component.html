@@ -28,7 +28,10 @@
     <strong>Related Products</strong>
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let rp of relatedProductList">
-        <div>{{rp.title}}</div>
+        <div>
+          <a href="" (click)="showProduct($event,rp)">
+          {{rp.title}}</a>
+        </div>
         <img [src]="rp.thumbnail" alt="" width="80px">
         <p>{{rp.description | slice:0:50}}..</p>
       </li>
@@ -37,7 +40,9 @@
     <strong>Related Content</strong>
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let rp of relatedContentList">
-        <p style="word-wrap: break-word">{{rp.title | slice:0:100}}..</p>
+        <p style="word-wrap: break-word">
+          <a href="" (click)="showContent($event,rp)">{{rp.title | slice:0:100}}</a>
+          </p>
       </li>
     </ul>
   </div>

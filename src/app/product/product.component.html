@@ -14,15 +14,25 @@
       <div class="col-md-8">
         <h4>{{detailInfo.title}}</h4>
         <strong *ngIf="indexName=='products'">Price {{detailInfo.price | currency:'INR':true}}</strong>
+        <div class="mt-2">
+          <button class="btn btn-primary">Buy Now</button>
+        </div>
         <div style="margin-top:10px">
           <p>Description</p>
           <p>{{detailInfo.description}}</p>
         </div>
+        
       </div>
       <div class="col-md-4">
         <img [src]="detailInfo.thumbnail" alt="" width="250px">
       </div>
     </div>
+    <div class="row mb-3 mt-5">
+        <div class="col-md-8"></div>
+        <div class="col-md-2"><app-affiliate></app-affiliate></div>
+        <div class="col-md-2"><app-affiliate></app-affiliate></div>
+        
+        </div>
     <div class="row" *ngIf="videosList.length>0" style="margin-bottom: 20px">
       <div class="col-md-12">
         <strong>Videos</strong>
@@ -97,8 +107,9 @@
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let rp of similarProducts">
           <div>
-             {{rp.title}}</div>
+            <a href="" (click)="show($event,rp)" >{{rp.title}}</a></div>
           <img [src]="rp.thumbnail" alt="" width="80px">
+          <div><strong>Price: {{rp.price | currency:'INR':true}}</strong></div>
           <p>{{rp.description | slice:0:50}}..</p>
         </li>
       </ul>

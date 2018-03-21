@@ -109,6 +109,7 @@ export class AppService {
         .set('X-RSearch-App-ID', this.config.appId)
     })
   }
+  
 
   relatedContent(indexName,docType,docId){
     let url = `${this.config.basePath}/indexes/algorithms/similardocs?auth_token=${this.config.authToken}`;
